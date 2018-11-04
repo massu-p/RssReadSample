@@ -1,9 +1,9 @@
 package massu_p.co.jp.rssreadsample.rss.views;
 
-import android.support.annotation.NonNull;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import massu_p.co.jp.rssreadsample.R;
@@ -15,20 +15,34 @@ import massu_p.co.jp.rssreadsample.rss.listener.OnRssItemClickListener;
  */
 public class RssIndexViewHolder extends RecyclerView.ViewHolder {
 
-	public ImageView thumbnailView;
-	public TextView titleView;
-	public TextView descriptionView;
+	private Context context;
+	private TextView titleView;
+	private TextView descriptionView;
 
-	public RssIndexViewHolder(@NonNull View itemView) {
+	public RssIndexViewHolder(View itemView) {
 		super(itemView);
-		thumbnailView = (ImageView) itemView.findViewById(R.id.adapter_thumbnail);
-		titleView = (TextView) itemView.findViewById(R.id.adapter_title);
-		descriptionView = (TextView) itemView.findViewById(R.id.adapter_description);
+		this.context = itemView.getContext();
+		titleView = itemView.findViewById(R.id.adapter_title);
+		descriptionView = itemView.findViewById(R.id.adapter_description);
 	}
 
-	public void bind(final RssItem item, final OnRssItemClickListener itemClickListener) {
+
+	public void bindIsNormal(final RssItem item, final OnRssItemClickListener itemClickListener) {
+		bind(item, false, itemClickListener);
+	}
+
+	public void bindIsHot(final RssItem item, final OnRssItemClickListener itemClickListener) {
+		bind(item, true, itemClickListener);
+	}
+
+	private void bind(final RssItem item, boolean isHot, final OnRssItemClickListener itemClickListener) {
 		titleView.setText(item.getTitle());
 		descriptionView.setText(item.getDescription());
+		if (isHot) {
+			titleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimension(R.dimen.rss_index_title_size_hot));
+			titleView.setTextColor(context.getColor(R.color.colorAccent));
+			descriptionView.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimension(R.dimen.rss_index_description_size_hot));
+		}
 		itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

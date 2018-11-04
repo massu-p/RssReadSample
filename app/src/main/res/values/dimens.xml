@@ -1,3 +1,7 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="rss_index_title_size_hot">18sp</dimen>
+    <dimen name="rss_index_title_size_normal">14sp</dimen>
+    <dimen name="rss_index_description_size_hot">14sp</dimen>
+    <dimen name="rss_index_description_size_normal">12sp</dimen>
 </resources>

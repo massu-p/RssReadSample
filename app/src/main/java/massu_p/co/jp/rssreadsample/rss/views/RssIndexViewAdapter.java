@@ -31,8 +31,12 @@ public class RssIndexViewAdapter extends RecyclerView.Adapter<RssIndexViewHolder
 	}
 
 	@Override
-	public void onBindViewHolder(@NonNull RssIndexViewHolder viewHolder, int i) {
-		viewHolder.bind(rssItems.get(i), itemClickListener);
+	public void onBindViewHolder(@NonNull RssIndexViewHolder viewHolder, int position) {
+		if (position == 0) {
+			viewHolder.bindIsHot(rssItems.get(position), itemClickListener);
+		} else {
+			viewHolder.bindIsNormal(rssItems.get(position), itemClickListener);
+		}
 	}
 
 	@Override
