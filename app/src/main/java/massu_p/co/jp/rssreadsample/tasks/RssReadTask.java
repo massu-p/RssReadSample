@@ -15,6 +15,7 @@ import java.util.List;
 
 import massu_p.co.jp.rssreadsample.rss.defines.ChannelElement;
 import massu_p.co.jp.rssreadsample.rss.defines.EventType;
+import massu_p.co.jp.rssreadsample.rss.entity.RssChannel;
 import massu_p.co.jp.rssreadsample.rss.entity.RssItem;
 
 /**
@@ -22,11 +23,11 @@ import massu_p.co.jp.rssreadsample.rss.entity.RssItem;
  */
 public class RssReadTask extends AsyncTask<Void, Void, RssReadResult> {
 
-	private URL rssUrl;
+	private List<URL> rssUrlList;
 	private CallBack callBack;
 
 	public interface CallBack {
-		void onComplete(RssItem channel, List<RssItem> itemList);
+		void onComplete(ArrayList<RssChannel> channelList);
 
 		void onError(RssReadResult.ResultType type);
 	}
@@ -34,11 +35,11 @@ public class RssReadTask extends AsyncTask<Void, Void, RssReadResult> {
 	/**
 	 * 第１引数に指定したURLを読み込み、第２引数に指定したコールバックに結果を返します。
 	 *
-	 * @param rssUrl RSSのURL
+	 * @param urlList RSSのURL
 	 * @param callBack 結果通知コールバック
 	 */
-	public RssReadTask(@NonNull URL rssUrl, @NonNull CallBack callBack) {
-		this.rssUrl = rssUrl;
+	public RssReadTask(@NonNull List<URL> urlList, @NonNull CallBack callBack) {
+		this.rssUrlList = urlList;
 		this.callBack = callBack;
 	}
 
@@ -50,8 +51,12 @@ public class RssReadTask extends AsyncTask<Void, Void, RssReadResult> {
 	@Override
 	protected RssReadResult doInBackground(Void... objects) {
 		try {
-			InputStream is = rssUrl.openConnection().getInputStream();
-			return parse(is);
+			ArrayList<RssChannel> channelList = new ArrayList<>();
+			for (URL url : rssUrlList) {
+				InputStream is = url.openConnection().getInputStream();
+				channelList.add(parse(is));
+			}
+			return new RssReadResult(channelList);
 		} catch (IOException e) {
 			return new RssReadResult(RssReadResult.ResultType.NOT_CONNECTED);
 		} catch (XmlPullParserException e) {
@@ -63,7 +68,7 @@ public class RssReadTask extends AsyncTask<Void, Void, RssReadResult> {
 	protected void onPostExecute(RssReadResult result) {
 		switch (result.getResultType()) {
 			case SUCCESS:
-				callBack.onComplete(result.getChannel(), result.getItemList());
+				callBack.onComplete(result.getChannelList());
 				break;
 			default:
 				callBack.onError(result.getResultType());
@@ -71,9 +76,9 @@ public class RssReadTask extends AsyncTask<Void, Void, RssReadResult> {
 		}
 	}
 
-	private RssReadResult parse(InputStream in) throws XmlPullParserException, IOException {
+	private RssChannel parse(InputStream in) throws XmlPullParserException, IOException {
 		XmlPullParser parser = Xml.newPullParser();
-		List<RssItem> itemList = new ArrayList<RssItem>();
+		ArrayList<RssItem> itemList = new ArrayList<RssItem>();
 		RssItem channel = null;
 		RssItem item = null;
 
@@ -122,7 +127,7 @@ public class RssReadTask extends AsyncTask<Void, Void, RssReadResult> {
 			}
 			type = EventType.getEventType(parser.next());
 		}
-		return new RssReadResult(channel, itemList);
+		return new RssChannel(channel, itemList);
 	}
 
 }

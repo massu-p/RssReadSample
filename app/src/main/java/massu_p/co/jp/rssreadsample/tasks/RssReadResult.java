@@ -1,8 +1,8 @@
 package massu_p.co.jp.rssreadsample.tasks;
 
-import java.util.List;
+import java.util.ArrayList;
 
-import massu_p.co.jp.rssreadsample.rss.entity.RssItem;
+import massu_p.co.jp.rssreadsample.rss.entity.RssChannel;
 
 /**
  * RssReadTaskでのRSS読み込み結果を格納するクラス
@@ -10,20 +10,18 @@ import massu_p.co.jp.rssreadsample.rss.entity.RssItem;
 public class RssReadResult {
 
 	private ResultType resultType;
-	private RssItem channel;
-	private List<RssItem> itemList;
+	private ArrayList<RssChannel> channelList;
 
 	public enum ResultType {
 		SUCCESS, READ_FAILED, NOT_CONNECTED
 	}
 
-	public RssReadResult(RssItem channel, List<RssItem> itemList) {
-		if (channel == null && itemList == null) {
+	public RssReadResult(ArrayList<RssChannel> channelList) {
+		if (channelList == null) {
 			resultType = ResultType.READ_FAILED;
 		} else {
 			resultType = ResultType.SUCCESS;
-			this.channel = channel;
-			this.itemList = itemList;
+			this.channelList = channelList;
 		}
 	}
 
@@ -35,12 +33,8 @@ public class RssReadResult {
 		return resultType;
 	}
 
-	public RssItem getChannel() {
-		return channel;
-	}
-
-	public List<RssItem> getItemList() {
-		return itemList;
+	public ArrayList<RssChannel> getChannelList() {
+		return channelList;
 	}
 
 }

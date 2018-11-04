@@ -6,19 +6,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import massu_p.co.jp.rssreadsample.R;
+import massu_p.co.jp.rssreadsample.rss.entity.RssChannel;
 import massu_p.co.jp.rssreadsample.rss.entity.RssItem;
 import massu_p.co.jp.rssreadsample.rss.listener.OnRssItemClickListener;
 
 public class RssIndexViewAdapter extends RecyclerView.Adapter<RssIndexViewHolder> {
 
-	private List<RssItem> rssItems;
+	private ArrayList<RssItem> rssItems;
 	private OnRssItemClickListener itemClickListener;
 
-	public RssIndexViewAdapter(List<RssItem> rssItems, OnRssItemClickListener itemClickListener) {
-		this.rssItems = rssItems;
+	public RssIndexViewAdapter(RssChannel channel, OnRssItemClickListener itemClickListener) {
+		this.rssItems = channel.getItemList();
 		this.itemClickListener = itemClickListener;
 	}
 
