@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">RSS Read Sample</string>
     <string name="title_activity_detail">DetailActivity</string>
+
+    <!-- error message -->
+    <string name="failed_connect">RSSの読み込みに失敗しました</string>
+    <string name="failed_rss_read">RSSが正常に読み込めませんでした</string>
 </resources>

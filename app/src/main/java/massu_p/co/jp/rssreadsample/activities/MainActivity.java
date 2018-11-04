@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.widget.Toast;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,6 +15,7 @@ import massu_p.co.jp.rssreadsample.R;
 import massu_p.co.jp.rssreadsample.rss.entity.RssItem;
 import massu_p.co.jp.rssreadsample.rss.listener.OnRssItemClickListener;
 import massu_p.co.jp.rssreadsample.rss.views.RssIndexViewAdapter;
+import massu_p.co.jp.rssreadsample.tasks.RssReadResult;
 import massu_p.co.jp.rssreadsample.tasks.RssReadTask;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 							RssIndexViewAdapter rssIndexAdapter = new RssIndexViewAdapter(itemList, new OnRssItemClickListener() {
 								@Override
 								public void onItemClick(RssItem item) {
-									Log.i("OnItemClick", item.getTitle());
 									RssItemActivity.startActivity(item, MainActivity.this);
 								}
 							});
@@ -53,12 +53,19 @@ public class MainActivity extends AppCompatActivity {
 				}
 
 				@Override
-				public void onError(Exception e) {
-
+				public void onError(RssReadResult.ResultType type) {
+					switch(type) {
+						case READ_FAILED:
+							Toast.makeText(getApplicationContext(), R.string.failed_rss_read, Toast.LENGTH_LONG).show();
+							break;
+						case NOT_CONNECTED:
+							Toast.makeText(getApplicationContext(), R.string.failed_connect, Toast.LENGTH_LONG).show();
+							break;
+					}
 				}
 			}).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			Toast.makeText(getApplicationContext(), R.string.failed_connect, Toast.LENGTH_LONG).show();
 		}
 	}
 }
