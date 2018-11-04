@@ -5,7 +5,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.net.MalformedURLException;
@@ -28,14 +27,10 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		pager = (ViewPager) findViewById(R.id.view_pager);
-		TabLayout tabLayout = (TabLayout) findViewById(R.id.view_table);
+		pager = findViewById(R.id.view_pager);
+		TabLayout tabLayout = findViewById(R.id.view_table);
 		tabLayout.setupWithViewPager(pager);
-	}
 
-	@Override
-	protected void onStart() {
-		super.onStart();
 		try {
 			List<URL> urlList = new ArrayList<>();
 			urlList.add(new URL("http://b.hatena.ne.jp/hotentry.rss"));

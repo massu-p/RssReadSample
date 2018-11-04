@@ -3,16 +3,19 @@ package massu_p.co.jp.rssreadsample.rss.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Itemの定義
+ * Channel要素かItem要素の判断は TYPEで判断する
+ */
 public class RssItem implements Parcelable {
 
 	private TYPE type;
 	private String title;
 	private String link;
 	private String description;
-	private String imageUrl;
 
 	public enum TYPE {
-		CHANNEL, ITEM;
+		CHANNEL, ITEM
 	}
 
 	public RssItem(TYPE type) {
@@ -51,14 +54,6 @@ public class RssItem implements Parcelable {
 		this.description = description;
 	}
 
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
-	}
-
 	@Override
 	public int describeContents() {
 		return 0;
@@ -70,16 +65,14 @@ public class RssItem implements Parcelable {
 		dest.writeString(this.title);
 		dest.writeString(this.link);
 		dest.writeString(this.description);
-		dest.writeString(this.imageUrl);
 	}
 
-	protected RssItem(Parcel in) {
+	private RssItem(Parcel in) {
 		int tmpType = in.readInt();
 		this.type = tmpType == -1 ? null : TYPE.values()[tmpType];
 		this.title = in.readString();
 		this.link = in.readString();
 		this.description = in.readString();
-		this.imageUrl = in.readString();
 	}
 
 	public static final Parcelable.Creator<RssItem> CREATOR = new Parcelable.Creator<RssItem>() {

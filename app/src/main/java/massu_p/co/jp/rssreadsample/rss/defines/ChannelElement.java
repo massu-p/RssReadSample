@@ -1,7 +1,8 @@
 package massu_p.co.jp.rssreadsample.rss.defines;
 
-import android.util.Log;
-
+/**
+ * RSS Channelの要素定義
+ */
 public enum ChannelElement {
 	CHANNEL("channel"),
 	ITEM("item"),

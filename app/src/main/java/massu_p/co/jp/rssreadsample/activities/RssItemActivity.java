@@ -9,6 +9,9 @@ import android.widget.TextView;
 import massu_p.co.jp.rssreadsample.R;
 import massu_p.co.jp.rssreadsample.rss.entity.RssItem;
 
+/**
+ * RSSの詳細を表示する画面
+ */
 public class RssItemActivity extends AppCompatActivity {
 
 	private final static String KEY_RSS_ITEM = "KEY_RSS_ITEM";
@@ -18,10 +21,10 @@ public class RssItemActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_rss_item);
 
-		RssItem item = (RssItem) getIntent().getParcelableExtra(KEY_RSS_ITEM);
+		RssItem item = getIntent().getParcelableExtra(KEY_RSS_ITEM);
 		setTitle(item.getTitle());
 
-		TextView description = (TextView) findViewById(R.id.rss_descriotion);
+		TextView description = findViewById(R.id.rss_descriotion);
 		description.setText(item.getDescription());
 	}
 

@@ -1,9 +1,10 @@
 package massu_p.co.jp.rssreadsample.rss.defines;
 
-import android.util.Log;
-
 import org.xmlpull.v1.XmlPullParser;
 
+/**
+ * XmlPullParser のイベントタイプ定義
+ */
 public enum EventType {
 	START_DOCUMENT(XmlPullParser.START_DOCUMENT),
 	END_DOCUMENT(XmlPullParser.END_DOCUMENT),

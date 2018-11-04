@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
+/**
+ * Channelの定義
+ */
 public class RssChannel implements Parcelable {
 
 	private RssItem channel;
@@ -34,7 +37,7 @@ public class RssChannel implements Parcelable {
 		dest.writeTypedList(this.itemList);
 	}
 
-	protected RssChannel(Parcel in) {
+	private RssChannel(Parcel in) {
 		this.channel = in.readParcelable(RssItem.class.getClassLoader());
 		this.itemList = in.createTypedArrayList(RssItem.CREATOR);
 	}
