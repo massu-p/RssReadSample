@@ -11,3 +11,6 @@ AndroidStudio 3.2
 
 ## 動作確認環境
 Nexus7(2013) Android6.0.1
+
+## 作成時間
+10時間程
